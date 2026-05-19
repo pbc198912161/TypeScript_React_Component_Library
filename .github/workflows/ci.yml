@@ -1,0 +1,63 @@
+# .github/workflows/ci.yml
+# ============================================================
+#  CI PIPELINE — runs on every push and pull request
+#  Steps: install → lint → typecheck → test → build
+# ============================================================
+
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    name: Lint · Typecheck · Test · Build
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]   # Test against two Node versions
+
+    steps:
+      # 1. Check out the code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Set up Node.js
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Run ESLint
+      - name: Lint
+        run: npm run lint
+
+      # 5. TypeScript type checking (no emit)
+      - name: Typecheck
+        run: npm run typecheck
+
+      # 6. Run unit tests with coverage
+      - name: Test
+        run: npm run test:coverage
+
+      # 7. Build the library
+      - name: Build
+        run: npm run build
+
+      # 8. Upload coverage report as artifact
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        if: matrix.node-version == '20.x'
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7

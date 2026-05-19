@@ -1,0 +1,66 @@
+/* src/components/Card/Card.module.css */
+.card {
+  background: #161929;
+  border: 1px solid #2e3354;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card--hoverable:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 36px rgba(0,0,0,0.5), 0 0 0 1px rgba(99,102,241,0.2);
+  border-color: rgba(99,102,241,0.35);
+}
+
+.card--interactive { cursor: pointer; }
+.card--interactive:focus-visible {
+  outline: 2.5px solid #6366f1;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(99,102,241,0.2);
+}
+
+.card--no-padding { padding: 0; }
+
+/* ---- Left accent border ---- */
+.card--accent-primary::before,
+.card--accent-success::before,
+.card--accent-warning::before,
+.card--accent-danger::before,
+.card--accent-info::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  border-radius: 12px 0 0 12px;
+}
+.card--accent-primary::before { background: #6366f1; }
+.card--accent-success::before { background: #22c55e; }
+.card--accent-warning::before { background: #f59e0b; }
+.card--accent-danger::before  { background: #ef4444; }
+.card--accent-info::before    { background: #0ea5e9; }
+
+/* ---- Sub-components ---- */
+.header {
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #2e3354;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.body { color: #9097b8; font-size: 0.9rem; line-height: 1.65; }
+
+.footer {
+  padding-top: 1rem;
+  margin-top: 1rem;
+  border-top: 1px solid #2e3354;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
